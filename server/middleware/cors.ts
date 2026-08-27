@@ -2,7 +2,7 @@ import { defineEventHandler, setResponseHeaders, handleCors } from 'h3';
 
 export default defineEventHandler(event => {
   const isCorsHandled = handleCors(event, {
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000'],
+    origin: (origin) => true,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
     credentials: true
