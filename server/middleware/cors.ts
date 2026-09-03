@@ -4,7 +4,9 @@ export default defineEventHandler(event => {
   const isCorsHandled = handleCors(event, {
     origin: (origin) => true,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-    allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    // vue-template-v3 sends x-tenant-id on every request; without it listed
+    // here the browser's CORS preflight silently blocks the real request.
+    allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-tenant-id'],
     credentials: true
   });
 
@@ -17,7 +19,7 @@ export default defineEventHandler(event => {
     setResponseHeaders(event, {
       'Access-Control-Allow-Origin': event.node.req.headers.origin || '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With, x-tenant-id',
       'Access-Control-Allow-Credentials': 'true'
     });
   }
