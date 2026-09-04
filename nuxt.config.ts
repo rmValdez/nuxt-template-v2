@@ -16,6 +16,13 @@ export default defineNuxtConfig({
     }
   },
   nitro: {
+    // Explicitly mark crypto/auth packages as server-only externals.
+    // These are used in server/api/auth/* Nitro routes and must NEVER be
+    // bundled into the client-side JavaScript.
+    externals: {
+      inline: [],
+      external: ['bcryptjs', 'jsonwebtoken'],
+    },
     cors: {
       origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000'],
       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
